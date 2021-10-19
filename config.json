@@ -1,0 +1,24 @@
+[
+  {
+    "key": "serverFQDN",
+    "type": "input",
+    "defaultValue": "",
+    "templateOptions": {
+      "label": "Domain Controller",
+      "placeholder": "Please provide the domain controller on which the actions will occur",
+      "description": "Domain Controller",
+      "required": true
+    }
+  },
+  {
+    "key": "groupPrefix",
+    "type": "input",
+    "defaultValue": "",
+    "templateOptions": {
+      "label": "Group prefix",
+      "placeholder": "Please provide the domain controller on which the actions will occur",
+      "description": "Domain Controller",
+      "required": false
+    }
+  }
+]
