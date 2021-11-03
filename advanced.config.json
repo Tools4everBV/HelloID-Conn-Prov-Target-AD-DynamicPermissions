@@ -1,0 +1,50 @@
+[
+    {
+      "key": "correlationPersonField",
+      "type": "input",
+      "defaultValue": "$p.ExternalId",
+      "templateOptions": {
+        "label": "Person Correlation Field",
+        "required": true
+      }
+    },
+    {
+      "key": "correlationAccountField",
+      "type": "input",
+      "defaultValue": "employeeID",
+      "templateOptions": {
+        "label": "Account Correlation Field",
+        "required": true
+      }
+    },
+    {
+      "key": "config1.verbose",
+      "type": "checkbox",
+      "defaultValue": false,
+      "templateOptions": {
+        "label": "Verbose logging for department group management",
+        "required": false
+      }
+    },
+    {
+      "key": "config1.name",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "Department group name",
+        "placeholder": "OE-AFD-$($contract.ExternalId)",
+        "required": true
+      }
+    },
+    {
+      "key": "config1.dn_ou",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "Department group location",
+        "placeholder": "OU=OE-DEPT,DC=customer,DC=local",
+        "description": "Please make sure the location is in the distinguishedName format (OU=x,DC=y,DC=z)",
+        "required": true
+      }
+    }
+  ]
