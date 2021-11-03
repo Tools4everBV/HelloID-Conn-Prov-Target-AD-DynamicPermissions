@@ -50,7 +50,7 @@ $result = [PSCustomObject]@{
     Success= $success
     AccountReference= $account.SID.Value
     AuditLogs = $auditLogs
-    Account = $accoun
+    Account = $account
 }
 
 Write-Output $result | ConvertTo-Json -Depth 10
