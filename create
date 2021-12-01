@@ -1,0 +1,43 @@
+#Region Script
+$connectionSettings = ConvertFrom-Json $configuration
+$serverFQDN = $($connectionSettings.serverFQDN)
+
+$p = $person | ConvertFrom-Json;
+$m = $manager | ConvertFrom-Json;
+$success = $False;
+$auditMessage = "for person " + $p.DisplayName;
+
+#correlation
+$correlationField = 'sAMAccountName'
+$correlationValue = $p.Accounts.MicrosoftActiveDirectory.sAMAccountName
+
+if(-Not($dryRun -eq $True)) {
+    try {
+        $user = Get-ADUser -Filter "$correlationField -eq '$correlationValue'" -Server $serverFQDN | Select-Object -Property ObjectGUID
+        if(-Not($null -eq $user) -and -Not($null -eq $user.ObjectGUID)) {
+            $accountReference = $user.ObjectGUID
+            $success = $True
+            $auditMessage = "Correlation found record $($correlationValue)."
+        } else {
+            $auditMessage = "Correlation not found for record $($correlationValue)."
+        }
+    }catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
+    {
+        $auditMessage = "Not Found - $($_.Exception.GetType().FullName)"
+    }
+    catch 
+    {
+        $auditMessage = "General - $($_.Exception.GetType().FullName)"
+    } 
+}
+
+#build up result
+$result = [PSCustomObject]@{
+	Success= $success;
+	AccountReference = $accountReference;
+	AuditDetails=$auditMessage;
+    Account = $account;
+};
+
+#send result back
+Write-Output $result | ConvertTo-Json -Depth 10
