@@ -1,5 +1,6 @@
 #region Initialize default properties
 $config = ConvertFrom-Json $configuration
+$p = ConvertFrom-Json $person
 
 $success = $false
 $auditLogs = New-Object Collections.Generic.List[PSCustomObject]
@@ -19,9 +20,9 @@ try{
     #Find AD account by employeeID attribute
     $filter = "($($correlationAccountField)=$($correlationPersonField))"
     #Write-Information "LDAP Filter: $($filter)"
-    
+
 	$account = Get-ADUser -LdapFilter $filter -Property sAMAccountName -Server $pdc
-	
+
     if ($null -eq $account) { throw "Failed to return an account" }
 
     Write-Information "Account correlated to $($account.sAMAccountName)"
@@ -31,7 +32,7 @@ try{
                 Message = "Account correlated to $($account.sAMAccountName)"
                 IsError = $false
             })
-	
+
     $success = $true
 }
 catch
